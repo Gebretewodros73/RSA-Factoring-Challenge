@@ -1,13 +1,21 @@
 #!/usr/bin/python3
 import sys
+import time
 
+
+start_time = time.time()
 
 # function to factorize n = p * q
 def factorize(n):
-    for i in range(2, n):
+    for i in range(2, int(n**0.5)+1):
         if n % i == 0:
-            return i, n//i
-        return None, None
+            return (i, n//i)
+    return None
+
+
+if len(sys.argv) !=2:
+    print("Usage: factors <file>")
+    sys.exit(1)
 
 
 # input file
@@ -18,7 +26,13 @@ with open(filename, 'r') as f:
         n = int(line.strip())
 
         # factorize
-        p, q = factorize(n)
+        factors = factorize(n)
 
         # print factorization
-        print(f"{n}={p}*{q}")
+        if factors:
+            print(f"{n}={factors[0]}*{factors[1]}")
+        else:
+            print(f"{n} is a prime number")
+
+end_time = time.time()
+print(f"Time taken: {end_time - start_time:.5f} seconds")
